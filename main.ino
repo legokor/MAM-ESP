@@ -14,15 +14,22 @@ void setup() {
 }
 
 void loop() {
-  TCPServer();
-}
 
-void TCPServer () {
   WiFiClient client = server.available();
-  if (client) {
-    if (client.available() > 0) {
-      char inChar = client.read();
-      Serial.write(inChar);
+  if (client)
+  {
+    Serial.println("\n[Client connected]");
+    while (client.connected())
+    {
+      if (client.available())
+      {
+        char line = client.read();
+        Serial.print(line);
+      }
     }
+    delay(1);
+    client.stop();
+    Serial.println("[Client disonnected]");
   }
+  
 }
